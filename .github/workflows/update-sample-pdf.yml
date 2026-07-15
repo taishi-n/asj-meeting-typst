@@ -19,7 +19,6 @@ jobs:
   update-sample-pdf:
     runs-on: ubuntu-latest
     env:
-      FONT_DIR: ${{ runner.temp }}/fonts
       HARANO_AJI_COMMIT: f0f692c1e39593751a4796082fa5232185d91ecd
       NEW_CM_VERSION: 8.1.1
     steps:
@@ -35,14 +34,15 @@ jobs:
         id: font-cache
         uses: actions/cache@v5
         with:
-          path: ${{ env.FONT_DIR }}
+          path: ${{ runner.temp }}/fonts
           key: sample-fonts-haranoaji-20250811-newcm-8.1.1
 
       - name: Install document fonts
         if: steps.font-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
-          mkdir -p "$FONT_DIR"
+          font_dir="$RUNNER_TEMP/fonts"
+          mkdir -p "$font_dir"
           base_url="https://raw.githubusercontent.com/trueroad/HaranoAjiFonts/$HARANO_AJI_COMMIT"
           fonts=(
             HaranoAjiMincho-Regular.otf
@@ -52,7 +52,7 @@ jobs:
           )
           for font in "${fonts[@]}"; do
             curl --fail --location --retry 3 \
-              --output "$FONT_DIR/$font" \
+              --output "$font_dir/$font" \
               "$base_url/$font"
           done
 
@@ -61,7 +61,7 @@ jobs:
             --output "$archive" \
             "https://download.gnu.org.ua/release/newcm/newcm-$NEW_CM_VERSION.txz"
           tar -xJf "$archive" \
-            -C "$FONT_DIR" \
+            -C "$font_dir" \
             --strip-components=2 \
             "newcm-$NEW_CM_VERSION/otf/NewCM10-Book.otf" \
             "newcm-$NEW_CM_VERSION/otf/NewCM10-BookItalic.otf"
@@ -72,7 +72,7 @@ jobs:
           creation_timestamp="$(git show -s --format=%ct HEAD)"
           typst compile \
             --ignore-system-fonts \
-            --font-path "$FONT_DIR" \
+            --font-path "$RUNNER_TEMP/fonts" \
             --creation-timestamp "$creation_timestamp" \
             main.typ \
             assets/main.pdf
