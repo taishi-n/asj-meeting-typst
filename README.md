@@ -66,7 +66,7 @@ typst watch main.typ
   title: [和文題目],
   authors: [○発表太郎，共著花子（所属略称）],
   english-title: [English title.],
-  english-authors: [Taro HAPPYO and Hanako KYOCHOKU (Affiliation)],
+  english-authors: [Taro HAPPYO and Hanako KYOCHO (Affiliation)],
   body-size: 11pt,
 )
 
@@ -144,6 +144,28 @@ $ <eq-convolution>
   image("figures/result.png", width: 90%),
   caption: [測定結果],
 ) <fig-result>
+```
+
+複数の図版を一つの図として横に並べる場合は，`grid`を使用します．
+次の例では，各図版の下に小見出しを置き，全体へ一つの図番号とキャプションを付けます．
+内容が`grid`であるため，図として番号付けするには`kind: image`を明示します．
+
+```typst
+#figure(
+  kind: image,
+  placement: top,
+  grid(
+    columns: (1fr, 1fr),
+    column-gutter: 3mm,
+    row-gutter: 2pt,
+    align: center,
+    image("figures/result-a.png", width: 100%),
+    image("figures/result-b.png", width: 100%),
+    [(a) 条件A],
+    [(b) 条件B],
+  ),
+  caption: [二つの条件で得られた結果],
+) <fig-results>
 ```
 
 二段を通す図では，`scope: "parent"`を追加します．

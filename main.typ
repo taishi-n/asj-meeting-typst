@@ -6,14 +6,18 @@
   read("styles/ieee-ja.csl"),
 )
 
-#let figure-placeholder(width: 56mm, height: 28mm) = rect(
+#let figure-placeholder(
+  width: 56mm,
+  height: 28mm,
+  label: [Figure placeholder],
+) = rect(
   width: width,
   height: height,
   stroke: 0.6pt,
   inset: 0pt,
   align(
     center + horizon,
-    text(fill: luma(45%), size: 9pt, [Figure placeholder]),
+    text(fill: luma(45%), size: 9pt, label),
   ),
 )
 
@@ -28,7 +32,7 @@
   title: [Typstによる日本音響学会研究発表会予稿の作成例],
   authors: [○発表太郎，共著花子（音響大学）],
   english-title: [An example of an ASJ meeting paper prepared with Typst.],
-  english-authors: [Taro HAPPYO and Hanako KYOCHOKU (Acoustics University)],
+  english-authors: [Taro HAPPYO and Hanako KYOCHO (Acoustics University)],
   body-size: 11pt,
 )
 
@@ -207,15 +211,33 @@
 
 図はTypst標準の`figure`で配置する．
 一段幅の図では`placement: top`または`placement: bottom`を指定し，図の後ろにラベルを付ける．
-本文ではFig. @fig-single のように図番号を参照できる．
+本文ではFig. @fig-multiple のように図番号を参照できる．
 以下の枠は外部の画像ファイルを使わず，Typstの`rect`で生成したプレースホルダである．
+ここでは，`grid`の各セルへ図版と小見出しを配置し，複数の図版を一つの図として横に並べている．
 
 #figure(
   kind: image,
   placement: top,
-  figure-placeholder(),
-  caption: [一段幅の図のプレースホルダ],
-) <fig-single>
+  grid(
+    columns: (1fr, 1fr),
+    column-gutter: 3mm,
+    row-gutter: 2pt,
+    align: center,
+    figure-placeholder(
+      width: 100%,
+      height: 20mm,
+      label: [Figure A],
+    ),
+    figure-placeholder(
+      width: 100%,
+      height: 20mm,
+      label: [Figure B],
+    ),
+    [(a) 条件A],
+    [(b) 条件B],
+  ),
+  caption: [二つの条件で得られた結果],
+) <fig-multiple>
 
 実際の画像を挿入する場合は，`image`に原稿からの相対パスを渡す．
 `width`は段幅に対する比率または`mm`などの長さで指定できる．
