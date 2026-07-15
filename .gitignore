@@ -1,0 +1,10 @@
+# Generated sample document
+/main.pdf
+
+# macOS metadata
+.DS_Store
+
+# Editor swap and backup files
+*.swp
+*.swo
+*~

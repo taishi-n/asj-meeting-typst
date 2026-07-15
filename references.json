@@ -1,0 +1,54 @@
+[
+  {
+    "id": "lee1999nmf",
+    "type": "article-journal",
+    "title": "Learning the parts of objects by non-negative matrix factorization",
+    "author": [
+      { "family": "Lee", "given": "Daniel D." },
+      { "family": "Seung", "given": "H. Sebastian" }
+    ],
+    "container-title": "Nature",
+    "volume": "401",
+    "issue": "6755",
+    "page": "788-791",
+    "issued": { "date-parts": [[1999, 10]] },
+    "DOI": "10.1038/44565",
+    "language": "en"
+  },
+  {
+    "id": "oppenheim2010dsp",
+    "type": "book",
+    "title": "Discrete-Time Signal Processing",
+    "author": [
+      { "family": "Oppenheim", "given": "Alan V." },
+      { "family": "Schafer", "given": "Ronald W." }
+    ],
+    "edition": "3",
+    "publisher": "Pearson",
+    "issued": { "date-parts": [[2010]] },
+    "ISBN": "978-0-13-198842-2",
+    "language": "en"
+  },
+  {
+    "id": "Nakashima:2022:ASJ:S",
+    "type": "paper-conference",
+    "title": "Iterative source steering を用いたオンライン補助関数型独立ベクトル分析に基づくブラインド音源分離",
+    "author": [
+      { "family": "中嶋", "given": "大志" },
+      { "family": "小野", "given": "順貴" }
+    ],
+    "container-title": "日本音響学会春季研究発表会講演論文集",
+    "issued": { "date-parts": [[2022, 3]] },
+    "page": "185-188",
+    "language": "ja-JP"
+  },
+  {
+    "id": "typst2026bibliography",
+    "type": "webpage",
+    "title": "Bibliography",
+    "author": [{ "literal": "Typst GmbH" }],
+    "URL": "https://typst.app/docs/reference/model/bibliography/",
+    "accessed": { "date-parts": [[2026, 7, 16]] },
+    "language": "en"
+  }
+]
