@@ -1,0 +1,90 @@
+name: Update sample PDF
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - assets/main.pdf
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-sample-pdf-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-sample-pdf:
+    runs-on: ubuntu-latest
+    env:
+      FONT_DIR: ${{ runner.temp }}/fonts
+      HARANO_AJI_COMMIT: f0f692c1e39593751a4796082fa5232185d91ecd
+      NEW_CM_VERSION: 8.1.1
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install Typst
+        uses: typst-community/setup-typst@v5
+        with:
+          typst-version: 0.15.0
+
+      - name: Restore font cache
+        id: font-cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ env.FONT_DIR }}
+          key: sample-fonts-haranoaji-20250811-newcm-8.1.1
+
+      - name: Install document fonts
+        if: steps.font-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          mkdir -p "$FONT_DIR"
+          base_url="https://raw.githubusercontent.com/trueroad/HaranoAjiFonts/$HARANO_AJI_COMMIT"
+          fonts=(
+            HaranoAjiMincho-Regular.otf
+            HaranoAjiMincho-Medium.otf
+            HaranoAjiGothic-Regular.otf
+            HaranoAjiGothic-Medium.otf
+          )
+          for font in "${fonts[@]}"; do
+            curl --fail --location --retry 3 \
+              --output "$FONT_DIR/$font" \
+              "$base_url/$font"
+          done
+
+          archive="$RUNNER_TEMP/newcm-$NEW_CM_VERSION.txz"
+          curl --fail --location --retry 3 \
+            --output "$archive" \
+            "https://download.gnu.org.ua/release/newcm/newcm-$NEW_CM_VERSION.txz"
+          tar -xJf "$archive" \
+            -C "$FONT_DIR" \
+            --strip-components=2 \
+            "newcm-$NEW_CM_VERSION/otf/NewCM10-Book.otf" \
+            "newcm-$NEW_CM_VERSION/otf/NewCM10-BookItalic.otf"
+
+      - name: Compile sample PDF
+        shell: bash
+        run: |
+          creation_timestamp="$(git show -s --format=%ct HEAD)"
+          typst compile \
+            --ignore-system-fonts \
+            --font-path "$FONT_DIR" \
+            --creation-timestamp "$creation_timestamp" \
+            main.typ \
+            assets/main.pdf
+
+      - name: Commit updated PDF
+        shell: bash
+        run: |
+          if git diff --quiet -- assets/main.pdf; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/main.pdf
+          git commit -m "chore: update generated sample PDF"
+          git push
