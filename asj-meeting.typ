@@ -52,7 +52,7 @@
   authors: none,
   english-title: none,
   english-authors: none,
-  body-size: 11pt,
+  body-size: 10pt,
   body,
 ) = {
   assert(
@@ -209,10 +209,10 @@
           scope: "parent",
           clearance: 3mm,
           move(
-            dy: 3.76pt,
+            dy: 7pt,
             block(width: 100%)[
               #line(length: 100%, stroke: 0.4pt)
-              #v(2pt)
+              #v(-7pt)
               #grid(
                 columns: (8.25mm, 1fr, 8.25mm),
                 column-gutter: 0pt,

@@ -33,7 +33,6 @@
   authors: [○発表太郎，共著花子（音響大学）],
   english-title: [An example of an ASJ meeting paper prepared with Typst.],
   english-authors: [Taro HAPPYO and Hanako KYOCHO (Acoustics University)],
-  body-size: 11pt,
 )
 
 #show raw.where(block: false): box.with(
@@ -183,14 +182,14 @@
   authors: [○発表太郎，共著花子（所属）],
   english-title: [English title.],
   english-authors: [Taro HAPPYO et al.],
-  body-size: 11pt,
+  body-size: 10pt,
 )
 ```
 
 `english-title`または`english-authors`を指定すると，題目末尾にアスタリスクを付け，一ページ目の下端へ`english-title`，`by`，`english-authors`の順に英文脚注を表示する．
 英文脚注は本文幅全体を使い，上側に長さ165 mmの罫線，左右に各8.25 mmの余白を設け，文字サイズは11 pt指定時に10 pt，10 pt指定時に9 ptとする．
 題目用の英文脚注は一つだけで，通常の本文脚注とは別に配置する．
-`body-size`の標準は`11pt`とし，規定ページ数へ収める必要がある場合に限って`10pt`を使う．
+`body-size`の既定値は`10pt`であり，`11pt`へ変更することもできる．
 
 == 見出しと本文
 
